@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/geral.css">
+  <title>BrutoFit - Adicionar Usuário</title>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <div id="mensagem-flash"></div>
+
+  <div class="divForm">
+    <form id="formUsuario">
+      <p>Nome:</p>
+      <p><input type="text" name="nomeUsuario" id="nomeUsuario" required></p>
+      <p>Email:</p>
+      <p><input type="email" name="email" id="email" required></p>
+      <p>
+        Cargo:
+        <select name="cargo" id="cargo">
+          <option value="gerente">Gerente</option>
+          <option value="vendedor">Vendedor</option>
+          <option value="adm">Administração</option>
+        </select>
+      </p>
+      <p>
+        <label for="fileFoto">Foto</label>
+        <input type="file" name="foto" id="fileFoto" accept="image/*">
+      </p>
+      <p>Senha:</p>
+      <p><input type="password" name="senha" id="senha" required></p>
+      <p><input type="submit" value="Enviar"></p>
+    </form>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    seedDatabase().then(() => {
+      if (!exigirLogin()) return;
+      renderNavbar();
+      exibirMensagemFlash();
+    });
+
+    document.getElementById("formUsuario").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nomeUsuario = document.getElementById("nomeUsuario").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const cargo = document.getElementById("cargo").value;
+      const senha = document.getElementById("senha").value;
+      const fotoInput = document.getElementById("fileFoto");
+
+      if (nomeUsuario.length > 0 && email.length > 0 && senha.length > 0) {
+        const foto = (await arquivoParaBase64(fotoInput)) || "";
+        const senhaHash = await hashSenha(senha);
+        salvarUsuario({ nome: nomeUsuario, email, cargo, senha: senhaHash, foto });
+        definirMensagem('<p class="sucesso">Registro criado com sucesso!</p>');
+      } else {
+        definirMensagem('<p class="erro">Preencha todos os campos!</p>');
+      }
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/geral.css">
+  <title>BrutoFit - Equipamentos</title>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <div id="mensagem-flash"></div>
+
+  <div class="cardsEquipamento" id="listaEquipamentos"></div>
+
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    seedDatabase().then(() => {
+      renderNavbar();
+      exibirMensagemFlash();
+      renderLista();
+    });
+
+    function renderLista() {
+      const container = document.getElementById("listaEquipamentos");
+      const equipamentos = listarEquipamentos();
+
+      if (equipamentos.length === 0) {
+        container.innerHTML = "<p>Nenhum equipamento cadastrado ainda.</p>";
+        return;
+      }
+
+      container.innerHTML = equipamentos
+        .map(
+          (eq) => `
+        <div class="listagem">
+          <p class="nome">${eq.nome}</p>
+          <div class="cardFotoContainer">
+            <img src="${eq.foto || ""}" alt="${eq.nome}">
+          </div>
+          <p class="descricaoEquipamento">${eq.descricao}</p>
+          <p class="musculo">Músculo: ${eq.musculo}</p>
+          <p class="botao">
+            <a href="alterarEquipamento.html?cod=${eq.codigo}">Alterar</a>
+            <a href="javascript:excluirEquipamento(${eq.codigo})">Excluir</a>
+          </p>
+        </div>
+      `
+        )
+        .join("");
+    }
+  </script>
+</body>
+</html>

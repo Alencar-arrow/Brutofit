@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/geral.css">
+  <title>BrutoFit</title>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <div class="inicio-container">
+    <div class="inicio-banner">
+      <img src="imagens_academia/academia-banner.jpg" alt="Academia BrutoFit">
+      <div class="inicio-texto">
+        <h1>Bem-vindo à BrutoFit</h1>
+        <p>Aqui você encontra os melhores equipamentos para treinos pesados e resultados reais. Organize, adicione e gerencie seus equipamentos com facilidade!</p>
+        <a href="addEquipamento.html" class="botao-inicio">Adicionar Equipamento</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    seedDatabase().then(renderNavbar);
+  </script>
+</body>
+</html>

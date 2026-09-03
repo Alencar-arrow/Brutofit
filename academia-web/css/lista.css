@@ -1,0 +1,67 @@
+
+.nome {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.cardsEquipamento {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem;
+    background-color: var(--neutra-color-1);
+}
+
+.listagem {
+    background: var(--neutra-color-2);
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.2);
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid var(--primary-color-3);
+    transition: transform 0.5s ease-in-out;
+}
+.listagem:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(255, 61, 61, 0.4);
+}
+
+.cardFotoContainer img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 2px solid var(--primary-color-3);
+}
+
+.descricaoEquipamento {
+    font-size: 15px;
+    color: var(--neutra-color-7);
+    margin: 10px 0;
+}
+
+.musculo {
+    font-size: 1.2rem;
+    color: var(--neutra-color-7);
+    margin: 10px 0;
+}
+
+.botao a {
+    display: inline-block;
+    margin: 0 8px;
+    padding: 10px 16px;
+    background-color: var(--primary-color-3);
+    color: var(--neutra-color-4);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.botao a:hover {
+    background-color: var(--primary-color-2);
+    transform: scale(1.05);
+}

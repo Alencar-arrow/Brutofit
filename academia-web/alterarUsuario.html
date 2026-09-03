@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/geral.css">
+  <title>BrutoFit - Alterar Usuário</title>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <div id="mensagem-flash"></div>
+
+  <div class="divForm" id="containerForm">
+    <p>Carregando...</p>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    seedDatabase().then(() => {
+      if (!exigirLogin()) return;
+      renderNavbar();
+      carregarFormulario();
+    });
+
+    function getParametro(nome) {
+      return new URLSearchParams(window.location.search).get(nome);
+    }
+
+    function carregarFormulario() {
+      const cod = getParametro("cod");
+      const usuario = buscarUsuarioPorCodigo(cod);
+      const container = document.getElementById("containerForm");
+
+      if (!usuario) {
+        container.innerHTML = '<p class="erro">Usuário não encontrado.</p>';
+        return;
+      }
+
+      container.innerHTML = `
+        <form id="formAlterar">
+          <p>Nome:</p>
+          <p><input type="text" name="nomeUsuario" id="nomeUsuario" value="${usuario.nome}" required></p>
+          <p>Email:</p>
+          <p><input type="email" name="email" id="email" value="${usuario.email}" required></p>
+          <p>
+            Cargo:
+            <select name="cargo" id="cargo">
+              <option value="gerente">Gerente</option>
+              <option value="vendedor">Vendedor</option>
+              <option value="adm">Administração</option>
+            </select>
+          </p>
+          <p class="imagem">${usuario.foto ? `<img src="${usuario.foto}" width="150" alt="">` : ""}</p>
+          <p>
+            <label for="fileFoto">Foto</label>
+            <input type="file" name="foto" id="fileFoto" accept="image/*">
+          </p>
+          <p>Nova senha (deixe em branco para manter a atual):</p>
+          <p><input type="password" name="senha" id="senha"></p>
+          <p><input type="submit" value="Enviar"></p>
+        </form>
+      `;
+
+      document.getElementById("cargo").value = usuario.cargo;
+
+      document.getElementById("formAlterar").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const nomeUsuario = document.getElementById("nomeUsuario").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const cargo = document.getElementById("cargo").value;
+        const senha = document.getElementById("senha").value;
+        const fotoInput = document.getElementById("fileFoto");
+
+        const novaFoto = await arquivoParaBase64(fotoInput);
+        const foto = novaFoto || usuario.foto;
+
+        const dadosNovos = { nome: nomeUsuario, email, cargo, foto };
+        if (senha.length > 0) {
+          dadosNovos.senha = await hashSenha(senha);
+        }
+
+        atualizarUsuario(cod, dadosNovos);
+        definirMensagem('<p class="sucesso">Registro atualizado com sucesso!</p>');
+        window.location.href = "listasUsuarios.html";
+      });
+    }
+  </script>
+</body>
+</html>

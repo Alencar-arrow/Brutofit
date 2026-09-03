@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/geral.css">
+  <title>BrutoFit - Adicionar Equipamento</title>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <div id="mensagem-flash"></div>
+
+  <div class="divForm">
+    <form id="formEquipamento">
+      <p>Nome:</p>
+      <p><input type="text" name="nomeEquipamento" id="nomeEquipamento" required></p>
+      <p>Descrição:</p>
+      <p><textarea name="descricao" id="descricao" cols="30" rows="10" required></textarea></p>
+      <p>
+        <p>Músculo:</p>
+        <select name="musculo" id="musculo">
+          <option value="Peito">Peito</option>
+          <option value="Costas">Costas</option>
+          <option value="Ombro">Ombro</option>
+          <option value="Abdomen">Abdômen</option>
+          <option value="Braco">Braço</option>
+          <option value="Pernas">Pernas</option>
+        </select>
+      </p>
+      <p>
+        <label for="fileFoto">Foto</label>
+        <input type="file" name="foto" id="fileFoto" accept="image/*">
+      </p>
+      <p><input type="submit" value="Enviar"></p>
+    </form>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    seedDatabase().then(() => {
+      renderNavbar();
+      exibirMensagemFlash();
+    });
+
+    document.getElementById("formEquipamento").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nomeEquipamento = document.getElementById("nomeEquipamento").value.trim();
+      const descricao = document.getElementById("descricao").value.trim();
+      const musculo = document.getElementById("musculo").value;
+      const fotoInput = document.getElementById("fileFoto");
+
+      if (nomeEquipamento.length > 0 && descricao.length > 0 && musculo.length > 0) {
+        const foto = (await arquivoParaBase64(fotoInput)) || "";
+        salvarEquipamento({ nome: nomeEquipamento, musculo, descricao, foto });
+        definirMensagem('<p class="sucesso">Registro criado com sucesso!</p>');
+      } else {
+        definirMensagem('<p class="erro">Preencha todos os campos!</p>');
+      }
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

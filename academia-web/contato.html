@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/geral.css">
+  <title>BrutoFit - Contato</title>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <div class="contato-container">
+    <h2 class="contato-titulo">Fale com a gente</h2>
+    <p class="contato-subtitulo">Dúvidas, sugestões ou feedbacks? Mande uma mensagem!</p>
+
+    <form class="form-contato" id="formContato">
+      <input type="text" name="nome" placeholder="Seu nome" required>
+      <input type="email" name="email" placeholder="Seu e-mail" required>
+      <textarea name="mensagem" rows="5" placeholder="Sua mensagem" required></textarea>
+      <div><button type="submit">Enviar</button></div>
+    </form>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    seedDatabase().then(renderNavbar);
+
+    // Este projeto não tem um servidor de e-mail por trás (é só front-end),
+    // então aqui simulamos o envio com um alerta.
+    document.getElementById("formContato").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Mensagem enviada! (simulado — este projeto não tem servidor de e-mail)");
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

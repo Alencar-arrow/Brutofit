@@ -1,0 +1,61 @@
+
+.divForm {
+    background-color: var(--neutra-color-2);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.2);
+    border: 2px solid var(--primary-color-3);
+    width: 100%;
+    max-width: 500px;
+    margin: 4rem auto;
+}
+
+.divForm:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(255, 61, 61, 0.4);  
+}
+
+
+form p {
+    margin-bottom: 1rem;
+}
+
+input[type="text"],
+textarea,
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--primary-color-3);
+    border-radius: 8px;
+    background-color: var(--neutra-color-9);
+    color: var(--neutra-color-5);
+}
+
+input[type="submit"] {
+    background-color: var(--primary-color-3);
+    color: var(--neutra-color-4);
+    font-weight: bold;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.5s;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--primary-color-2);
+    transform: scale(1.03);
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.imagem {
+    display: flex;
+    justify-content: center;
+}

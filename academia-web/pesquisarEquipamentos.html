@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/geral.css">
+  <title>BrutoFit - Pesquisar</title>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <div class="container">
+    <h2 class="titulo">Pesquisar Equipamento</h2>
+    <form id="formPesquisar">
+      <div class="espaço">
+        <input type="text" name="buscar" id="buscar" placeholder="Digite o nome do equipamento" required>
+      </div>
+      <input type="submit" value="Pesquisar">
+    </form>
+  </div>
+
+  <div id="resultado"></div>
+
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    seedDatabase().then(() => {
+      renderNavbar();
+
+      const busca = getParametro("buscar");
+      if (busca) {
+        document.getElementById("buscar").value = busca;
+        pesquisar(busca);
+      }
+    });
+
+    function getParametro(nome) {
+      return new URLSearchParams(window.location.search).get(nome);
+    }
+
+    document.getElementById("formPesquisar").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const termo = document.getElementById("buscar").value.trim();
+      const url = new URL(window.location.href);
+      url.searchParams.set("buscar", termo);
+      window.history.replaceState(null, "", url);
+      pesquisar(termo);
+    });
+
+    function pesquisar(termo) {
+      const resultadoDiv = document.getElementById("resultado");
+      const encontrados = listarEquipamentos().filter((eq) =>
+        eq.nome.toLowerCase().includes(termo.toLowerCase())
+      );
+
+      let html = `<h3 class="busca">Resultados para: <em>${termo}</em></h3>`;
+
+      if (encontrados.length > 0) {
+        html += '<div class="content-pesquisar">';
+        html += encontrados
+          .map(
+            (eq) => `
+          <div class="pesquisa">
+            <h3 class="nome">${eq.nome}</h3>
+            <div class="cardFotoContainer"><img src="${eq.foto || ""}" alt="Foto"></div>
+            <p class="descricaoEquipamento">${eq.descricao}</p>
+            <p class="musculo"><strong>Músculo:</strong> ${eq.musculo}</p>
+            <div class="botao">
+              <a href="alterarEquipamento.html?cod=${eq.codigo}">Alterar</a>
+              <a href="javascript:excluirEquipamento(${eq.codigo})">Excluir</a>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+        html += "</div>";
+      } else {
+        html += `<p style="color:#ccc; font-size: 1.2rem; text-align: center;">Nenhum equipamento encontrado para <strong style="color:#ff3d3d;">${termo}</strong>.</p>`;
+      }
+
+      resultadoDiv.innerHTML = html;
+    }
+  </script>
+</body>
+</html>

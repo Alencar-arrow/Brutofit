@@ -1,6 +1,7 @@
 <div align="center">
 
-  <h1>🦍 B R U T O &nbsp; F I T</h1>
+  <!-- Logo Oficial Bruto -->
+  <img src="https://raw.githubusercontent.com/Alencar-arrow/Brutofit/main/academia-web/logo/logo2.svg" alt="Bruto Logo" width="180" />
 
   <p align="center">
     O sistema definitivo para gerenciar sua academia, equipamentos e treinos pesados com resultados reais.
